@@ -24,8 +24,6 @@ class RegistroPessoa(Resource):
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
                 
-        cursor.execute('''CREATE TABLE IF NOT EXISTS Pessoa (ID INTEGER PRIMARY KEY, nome TEXT, sobrenome TEXT)''')
-
         cursor.execute('''INSERT INTO Pessoa VALUES (NULL, ?, ?)''', (data['nome'], data['sobrenome'],))
 
         conexao.commit()

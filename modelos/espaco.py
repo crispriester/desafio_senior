@@ -27,8 +27,6 @@ class RegistroEspaco(Resource):
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
                 
-        cursor.execute('''CREATE TABLE IF NOT EXISTS Espaco (ID INTEGER PRIMARY KEY, nome TEXT, lotacao INTEGER)''')
-
         cursor.execute('''INSERT INTO Espaco (NULL, ?, ?)''', (data['nome'], data['lotacao'],))
 
         conexao.commit()

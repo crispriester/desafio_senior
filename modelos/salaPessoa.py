@@ -1,26 +1,32 @@
 import sqlite3
 from flask_restful import Resource
 from flask import request
+import salaPessoaServico
 
 class SalaPessoa:
-    def __init__(self, nome_sala, nome_pessoa, etapa):
-        self.nome_sala = nome_sala
-        self.nome_pessoa = nome_pessoa
+    def __init__(self, id_sala, id_pessoa, etapa):
+        self.id_sala = id_sala
+        self.id_pessoa = id_pessoa
         self.etapa = etapa
 
 
 class RegistroSalaPessoa(Resource):
     def post(self):
         data = request.get_json()
+        
+        id_sala = data['Id_sala']
+        id_pessoa = data['id_pessoa']
+        etapa = data['etapa']
 
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
                 
-        cursor.execute('''CREATE TABLE IF NOT EXISTS SalaPessoa (ID INTEGER PRIMARY KEY, nome_sala TEXT, nome_pessoa TEXT, etapa INTEGER)''')
+        # Chamar função para validar o registro *Aqui
 
-        #função para validar a entrada da pessoa na sala
+        classe = salaPessoaServico.SalaPessoaServico(id_sala, id_pessoa, etapa)
 
-        cursor.execute('''INSERT INTO Sala (NULL, ?, ?, ?)''', (data['nome_sala'], data['nome_pessoa'], data['etapa'],))
+        if SalaPessoaServico.verificar_lotacao_geral() == True: 
+            cursor.execute('''INSERT INTO SalaPessoa (NULL, ?, ?, ?)''', (id_sala, id_pessoa, etapa,))
 
         conexao.commit()
         conexao.close()

@@ -27,7 +27,7 @@ class RegistroSala(Resource):
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
                 
-        cursor.execute('''CREATE TABLE IF NOT EXISTS Sala (ID INTEGER PRIMARY KEY, nome TEXT, lotacao INTEGER)''')
+        # Chamar função para validar o registro *Aqui
 
         cursor.execute('''INSERT INTO Sala (NULL, ?, ?)''', (data['nome'], data['lotacao'],))
 
