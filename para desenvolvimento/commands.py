@@ -1,4 +1,4 @@
-# CLASSE USADA PARA ADMINISTRAR MANUALMENTE A BASE DE DADOS
+# CLASSE USADA PARA ADMINISTRAR MANUALMENTE UMA BASE DE DADOS
 
 import sqlite3
 
@@ -9,11 +9,11 @@ try:
 
     cursor.execute("CREATE TABLE Pessoa(id integener identity(1, 1), nome text, sobrenome text)")
 
-    cursor.execute("INSERT INTO Pessoa(nome, sobrenome) VALUES ('Matheus', 'Marchi Moro')")
+    # cursor.execute("INSERT INTO Pessoa(nome, sobrenome) VALUES ('Matheus', 'Marchi Moro')")
 
     banco.commit()
 
-    cursor.execute("SELECT * FROM Pessoa")
+    # cursor.execute("SELECT * FROM Pessoa")
 
 except sqlite3.Error as erro:
     print(erro)
