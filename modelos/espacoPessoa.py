@@ -4,8 +4,8 @@ from flask import request
 
 class EspacoPessoa:
     def __init__(self, id_espaco, id_pessoa, intervalo):
-        self.id_espaco = nome_espaco
-        self.id_pessoa = nome_pessoa
+        self.id_espaco = id_espaco
+        self.id_pessoa = id_pessoa
         self.intervalo = intervalo
 
 
