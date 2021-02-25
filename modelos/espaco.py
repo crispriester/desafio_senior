@@ -11,17 +11,16 @@ class Espaco:
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
 
-        lista_pessoas = []
+        lista_pessoasespaco = []
         sala = cursor.execute('''SELECT * FROM EspacoPessoa WHERE nome_espaco = ?''', (nome,))
         for i in sala.fetchall():
-            lista_pessoas.append(("Pessoa: "+i[2], "Etapa: "+i[3]))
-
+            lista_pessoasespaco.append(("Pessoa: "+i[2], "Intervalo: "+i[3]))
 
         conexao.close()
-        return(lista_pessoas)
+        return(lista_pessoasespaco)
 
 
-class EspacoRegistrado(Resource):
+class RegistroEspaco(Resource):
     def post(self):
         data = request.get_json()
 
@@ -30,7 +29,7 @@ class EspacoRegistrado(Resource):
                 
         cursor.execute('''CREATE TABLE IF NOT EXISTS Espaco (ID INTEGER PRIMARY KEY, nome TEXT, lotacao INTEGER)''')
 
-        cursor.execute('''INSERT INTO Espaco (NULL, ?, ?)''', (data['nome'], data['lotação'],))
+        cursor.execute('''INSERT INTO Espaco (NULL, ?, ?)''', (data['nome'], data['lotacao'],))
 
         conexao.commit()
         conexao.close()

@@ -17,7 +17,7 @@ class Pessoa:
         conexao.close()
         return(f"Sala etapa 1: {sala[0][1]}. Sala etapa 2: {sala[1][1]}. Espaço intervalo 1: {espaco[0][1]}. Espaço intervalo 2: {espaco[1][1]}.")
 
-class Registrar(Resource):
+class RegistroPessoa(Resource):
     def post(self):
         data = request.get_json()
 

@@ -16,12 +16,11 @@ class Sala:
         for i in sala.fetchall():
             lista_pessoasetapas.append(("Pessoa: "+i[2], "Etapa: "+i[3]))
 
-
         conexao.close()
         return(lista_pessoasetapas)
-        
 
-class SalaRegistrada(Resource):
+
+class RegistroSala(Resource):
     def post(self):
         data = request.get_json()
 
@@ -30,7 +29,7 @@ class SalaRegistrada(Resource):
                 
         cursor.execute('''CREATE TABLE IF NOT EXISTS Sala (ID INTEGER PRIMARY KEY, nome TEXT, lotacao INTEGER)''')
 
-        cursor.execute('''INSERT INTO Sala (NULL, ?, ?)''', (data['nome'], data['lotação'],))
+        cursor.execute('''INSERT INTO Sala (NULL, ?, ?)''', (data['nome'], data['lotacao'],))
 
         conexao.commit()
         conexao.close()

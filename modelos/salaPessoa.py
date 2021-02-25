@@ -9,7 +9,7 @@ class SalaPessoa:
         self.etapa = etapa
 
 
-class SalaRegistrada(Resource):
+class RegistroSalaPessoa(Resource):
     def post(self):
         data = request.get_json()
 
