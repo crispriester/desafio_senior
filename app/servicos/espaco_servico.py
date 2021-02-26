@@ -11,12 +11,12 @@ class EspacoServico:
         conexao.close()
         return(espacos)
 
-    def obterPessoaPeloID(self, id_espaco): 
+    def obterEspacoPeloID(self, id_espaco): 
         
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
 
-        espaco = cursor.execute('''SELECT * FROM Espacos WHERE id = ?''', (id_pessoa,)).fetchone()
+        espaco = cursor.execute('''SELECT * FROM Espacos WHERE id = ?''', (id_espaco,)).fetchone()
 
         conexao.close()
         return(espaco)
@@ -30,16 +30,16 @@ class EspacoServico:
         conexao.commit()
         conexao.close()
 
-    def editarPessoa(self, nome, lotacao, id_espaco: int):
+    def editarEspaco(self, nome, lotacao, id_espaco: int):
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
         
-        cursor.execute('''UPDATE Pessoa SET nome = ?, lotacao = ? WHERE id = ?''', (nome, lotacao, id_pessoa))
+        cursor.execute('''UPDATE Espaco SET nome = ?, lotacao = ? WHERE id = ?''', (nome, lotacao, id_espaco,))
 
         conexao.commit()
         conexao.close()
 
-    def deletarPessoa(self, id_espaco: int):
+    def deletarEspaco(self, id_espaco: int):
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
         
