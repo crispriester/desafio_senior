@@ -1,49 +1,51 @@
 import sqlite3
 
-class SalaPessoaServico:
-    def obterSalasPessoa(self): 
+def obterSalasPessoa(): 
         
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
 
-        salapessoa = cursor.execute('''SELECT * FROM SalaPessoa''').fetchall()
+    salapessoa = cursor.execute('''SELECT * FROM SalaPessoa''').fetchall()
 
-        conexao.close()
-        return(salapessoa)
+    conexao.close()
+    return(salapessoa)
 
-    def obterSalaPessoaPeloID(self, id_salapessoa): 
+def obterSalaPessoaPeloID(id_salapessoa): 
         
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
 
-        salapessoa = cursor.execute('''SELECT * FROM SalaPessoa WHERE id = ?''', (id_salapessoa,)).fetchone()
+    salapessoa = cursor.execute('''SELECT * FROM SalaPessoa WHERE id = ?''', (id_salapessoa,)).fetchone()
 
-        conexao.close()
-        return(salapessoa)
+    conexao.close()
+    return(salapessoa)
 
-    def inserirSalaPessoa(self, id_sala, id_pessoa, etapa):
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+def inserirSalaPessoa(id_sala, id_pessoa, etapa):
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
 
-        cursor.execute('''INSERT INTO SalaPessoa VALUES(NULL, ?, ?, ?)''', (id_sala, id_pessoa, etapa))
+    cursor.execute('''INSERT INTO SalaPessoa VALUES(NULL, ?, ?, ?)''', (id_sala, id_pessoa, etapa))
         
-        conexao.commit()
-        conexao.close()
+    conexao.commit()
+    conexao.close()
+    return True
 
-    def editarSalaPessoa(self, id_sala, id_pessoa, etapa, id_salapessoa: int):
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+def editarSalaPessoa(id_sala, id_pessoa, etapa, id_salapessoa: int):
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
         
-        cursor.execute('''UPDATE SalaPessoa SET id_sala = ?, id_pessoa = ?, etapa = ? WHERE id = ?''', (id_sala, id_pessoa, etapa, id_salapessoa))
+    cursor.execute('''UPDATE SalaPessoa SET id_sala = ?, id_pessoa = ?, etapa = ? WHERE id = ?''', (id_sala, id_pessoa, etapa, id_salapessoa))
 
-        conexao.commit()
-        conexao.close()
+    conexao.commit()
+    conexao.close()
+    return True
 
-    def deletarSalaPessoa(self, id_salapessoa: int):
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+def deletarSalaPessoa(id_salapessoa: int):
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
         
-        cursor.execute('''DELETE FROM SalaPessoa WHERE id = ?''', (id_salapessoa,))
+    cursor.execute('''DELETE FROM SalaPessoa WHERE id = ?''', (id_salapessoa,))
 
-        conexao.commit()
-        conexao.close()
+    conexao.commit()
+    conexao.close()
+    return True

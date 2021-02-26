@@ -1,49 +1,54 @@
 import sqlite3
 
-class EspacoServico:
-    def obterEspacos(self): 
+def obterEspacos(): 
         
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
 
-        espacos = cursor.execute('''SELECT * FROM Espacos''').fetchall()
+    espacos = cursor.execute('''SELECT * FROM Espacos''').fetchall()
 
-        conexao.close()
-        return(espacos)
+    conexao.close()
+    return(espacos)
 
-    def obterEspacoPeloID(self, id_espaco): 
+def obterEspacoPeloID(id_espaco): 
         
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
 
-        espaco = cursor.execute('''SELECT * FROM Espacos WHERE id = ?''', (id_espaco,)).fetchone()
+    espaco = cursor.execute('''SELECT * FROM Espacos WHERE id = ?''', (id_espaco,)).fetchone()
 
-        conexao.close()
-        return(espaco)
+    conexao.close()
+    return(espaco)
 
-    def inserirEspaco(self, nome, lotacao):
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+def inserirEspaco(nome, lotacao):
 
-        cursor.execute('''INSERT INTO Espaco VALUES(NULL, ?, ?)''', (nome, lotacao,))
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
+
+    cursor.execute('''INSERT INTO Espaco VALUES(NULL, ?, ?)''', (nome, lotacao,))
         
-        conexao.commit()
-        conexao.close()
+    conexao.commit()
+    conexao.close()
+    return True
 
-    def editarEspaco(self, nome, lotacao, id_espaco: int):
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+def editarEspaco(nome, lotacao, id_espaco: int):
+
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
         
-        cursor.execute('''UPDATE Espaco SET nome = ?, lotacao = ? WHERE id = ?''', (nome, lotacao, id_espaco,))
+    cursor.execute('''UPDATE Espaco SET nome = ?, lotacao = ? WHERE id = ?''', (nome, lotacao, id_espaco,))
 
-        conexao.commit()
-        conexao.close()
+    conexao.commit()
+    conexao.close()
+    return True
 
-    def deletarEspaco(self, id_espaco: int):
-        conexao = sqlite3.connect("evento.db")
-        cursor = conexao.cursor()
+def deletarEspaco(id_espaco: int):
+
+    conexao = sqlite3.connect("evento.db")
+    cursor = conexao.cursor()
         
-        cursor.execute('''DELETE FROM Espacos WHERE id = ?''', (id_espaco,))
+    cursor.execute('''DELETE FROM Espacos WHERE id = ?''', (id_espaco,))
 
-        conexao.commit()
-        conexao.close()
+    conexao.commit()
+    conexao.close()
+    return True
