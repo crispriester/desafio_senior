@@ -1,7 +1,7 @@
 import sqlite3
 
 class PessoaServico:
-    def obterPessoas(self, nome, sobrenome): 
+    def obterPessoas(self): 
         
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
@@ -34,7 +34,7 @@ class PessoaServico:
         conexao = sqlite3.connect("evento.db")
         cursor = conexao.cursor()
         
-        cursor.execute('''UPDATE Pessoa SET nome = ?, sobrenome = ? WHERE ID = ?''', (nome, sobrenome, id_pessoa))
+        cursor.execute('''UPDATE Pessoa SET nome = ?, sobrenome = ? WHERE id = ?''', (nome, sobrenome, id_pessoa))
 
         conexao.commit()
         conexao.close()
