@@ -1,5 +1,5 @@
 from flask import Flask, request
-from servicos import pessoa_servico, sala_servico, espaco_servico, espacoPessoa_servico, salaPessoa_servico
+from servicos import pessoa_servico, sala_servico, espaco_servico, espacoPessoa_servico, salaPessoa_servico, requisitosParaCadastro
 
 app = Flask("Treinamento")
 
@@ -8,13 +8,14 @@ app = Flask("Treinamento")
 @app.route("/pessoa/consultar", methods=["GET"])
 def consultarPessoas():
 
-    return pessoa_servico.obterPessoas()
-
+    pessoas = pessoa_servico.obterPessoas()
+    return gerarResposta(200, "Pessoas Obtidas", "Pessoas", pessoas)
 
 @app.route("/pessoa/consultar/id=<pessoaId>", methods=["GET"])
 def consultarPessoaPeloID(pessoaId: int):
 
-    return pessoa_servico.obterPessoaPeloID(pessoaId)
+    pessoas = pessoa_servico.obterPessoaPeloID(pessoaId)
+    return gerarResposta(200, "Pessoas Obtidas", "Pessoas", pessoas)
 
 
 @app.route("/pessoa/cadastrar", methods=["POST"])
@@ -28,9 +29,11 @@ def cadastrarPessoa():
     if("sobrenome" not in body):
         return gerarResposta(400, "O parâmetro 'sobrenome' é obrigatório.")
 
-    pessoa = pessoa_servico.inserirPessoa(body["nome"], body["sobrenome"])
+    
 
-    return gerarResposta(200, "Pessoa inserida", "pessoa", pessoa)
+    pessoa_servico.inserirPessoa(body["nome"], body["sobrenome"])
+
+    return gerarResposta(200, "Pessoa inserida", "pessoa", body)
 
 
 @app.route("/pessoa/editar/id=<pessoaId>", methods=["PUT"])
@@ -38,21 +41,20 @@ def editarPessoa(pessoaId: int):
 
     body = request.get_json()
 
-    pessoa_registrada = pessoa_servico.obterPessoaPeloID(pessoaId)
+    #pessoa_registrada = pessoa_servico.obterPessoaPeloID(pessoaId)
 
-    if pessoa_registrada is None:
-        return gerarResposta(400, "Essa pessoa não é registrada.")
-    pessoa_servico.deletarPessoa(pessoaId)
-
+    #if pessoa_registrada is None:
+    #    return gerarResposta(400, "Essa pessoa não é registrada.")
+    
     if("nome" not in body):
         return gerarResposta(400, "O parâmetro 'nome' é obrigatório.")
     
     if("sobrenome" not in body):
         return gerarResposta(400, "O parâmetro 'sobrenome' é obrigatório.")
 
-    pessoa = pessoa_servico.editarPessoa(body["nome"], body["sobrenome"], pessoaId)
+    pessoa_servico.editarPessoa(body["nome"], body["sobrenome"], pessoaId)
 
-    return gerarResposta(200, "Pessoa editada", "pessoa", pessoa)
+    return gerarResposta(200, "Pessoa editada", "pessoa", body)
 
 
 @app.route("/pessoa/remover/id=<pessoaId>", methods=["DELETE"])
@@ -62,6 +64,7 @@ def removerPessoa(pessoaId: int):
 
     if pessoa_registrada is None:
         return gerarResposta(400, "Essa pessoa não é registrada.")
+
     pessoa_servico.deletarPessoa(pessoaId)
 
     return gerarResposta(200, "Pessoa removida.")
@@ -74,13 +77,15 @@ def removerPessoa(pessoaId: int):
 @app.route("/sala/consultar", methods=["GET"])
 def consultarSalas():
 
-    return sala_servico.obterSalas()
-
+    salas = sala_servico.obterSalas()
+    return gerarResposta(200, "Salas Obtidas", "Salas", salas)
 
 @app.route("/sala/consultar/id=<salaId>", methods=["GET"])
 def consultarSalaPeloID(salaId: int):
 
-    return sala_servico.obterSalaPeloID(salaId)
+    sala = sala_servico.obterSalaPeloID(salaId)
+    return gerarResposta(200, "Sala Obtida", "Sala", sala)
+
 
 
 @app.route("/sala/cadastrar", methods=["POST"])
@@ -94,9 +99,9 @@ def cadastrarSala():
     if("lotação" not in body):
         return gerarResposta(400, "O parâmetro 'lotação' é obrigatório.")
 
-    sala = sala_servico.inserirSala(body["nome"], body["lotação"])
+    sala_servico.inserirSala(body["nome"], body["lotação"])
 
-    return gerarResposta(200, "Sala inserida", "sala", sala)
+    return gerarResposta(200, "Sala inserida", "sala", body)
 
 
 @app.route("/sala/editar/id=<salaId>", methods=["PUT"])
@@ -116,9 +121,9 @@ def editarSala(salaId: int):
     if("lotação" not in body):
         return gerarResposta(400, "O parâmetro 'lotação' é obrigatório.")
 
-    sala = sala_servico.editarSala(body["nome"], body["lotação"], salaId)
+    sala_servico.editarSala(body["nome"], body["lotação"], salaId)
 
-    return gerarResposta(200, "Sala editada", "sala", sala)
+    return gerarResposta(200, "Sala editada", "sala", body)
 
 
 @app.route("/sala/remover/id=<salaId>", methods=["DELETE"])
@@ -160,9 +165,9 @@ def cadastrarEspaco():
     if("lotação" not in body):
         return gerarResposta(400, "O parâmetro 'lotação' é obrigatório.")
 
-    espaco = espaco_servico.inserirEspaco(body["nome"], body["lotação"])
+    espaco_servico.inserirEspaco(body["nome"], body["lotação"])
 
-    return gerarResposta(200, "Espaço inserido", "espaço", espaco)
+    return gerarResposta(200, "Espaço inserido", "espaço", body)
 
 
 @app.route("/espaco/editar/id=<espacoId>", methods=["PUT"])
@@ -182,9 +187,9 @@ def editarEspaco(espacoId: int):
     if("lotação" not in body):
         return gerarResposta(400, "O parâmetro 'lotação' é obrigatório.")
 
-    espaco = espaco_servico.editarEspaco(body["nome"], body["lotação"], espacoId)
+    espaco_servico.editarEspaco(body["nome"], body["lotação"], espacoId)
 
-    return gerarResposta(200, "Espaço editada", "espaço", espaco)
+    return gerarResposta(200, "Espaço editada", "espaço", body)
 
 
 @app.route("/espaco/remover/id=<espacoId>", methods=["DELETE"])
@@ -228,9 +233,9 @@ def cadastrarEspacoPessoa():
     if("intervalo" not in body):
         return gerarResposta(400, "O parâmetro 'intervalo' é obrigatório.")
 
-    espacoPessoa = espacoPessoa_servico.inserirEspacoPessoa(body["espacoId"], body["pessoaId"], body["intervalo"])
+    espacoPessoa_servico.inserirEspacoPessoa(body["espacoId"], body["pessoaId"], body["intervalo"])
 
-    return gerarResposta(200, "EspaçoPessoa inserido", "espaçoPessoa", espacoPessoa)
+    return gerarResposta(200, "EspaçoPessoa inserido", "espaçoPessoa", body)
 
 
 @app.route("/espacoPessoa/editar/id=<espacoPessoaId>", methods=["PUT"])
@@ -252,9 +257,9 @@ def editarEspacoPessoa(espacoPessoaId: int):
     if("intervalo" not in body):
         return gerarResposta(400, "O parâmetro 'intervalo' é obrigatório.")    
 
-    espacoPessoa = espacoPessoa_servico.editarEspacoPessoa(body["espacoId"], body["pessoaId"], body["intervalo"], espacoPessoa_registrado)
+    espacoPessoa_servico.editarEspacoPessoa(body["espacoId"], body["pessoaId"], body["intervalo"], espacoPessoa_registrado)
 
-    return gerarResposta(200, "EspaçoPessoa editado", "espaçoPessoa", espacoPessoa)
+    return gerarResposta(200, "EspaçoPessoa editado", "espaçoPessoa", body)
 
 
 @app.route("/espacoPessoa/remover/id=<espacoPessoaId>", methods=["DELETE"])
@@ -276,13 +281,14 @@ def removerEspacoPessoa(espacoPessoaId: int):
 @app.route("/salaPessoa/consultar", methods=["GET"])
 def consultarSalaPessoa():
 
-    return salaPessoa_servico.obterSalasPessoa()
-
+    salapessoa = salaPessoa_servico.obterSalasPessoas()
+    return gerarResposta(200, "Obter SalaPessoas", "SalasPessoas", salapessoa)
 
 @app.route("/salaPessoa/consultar/id=<salaPessoaId>", methods=["GET"])
 def consultarSalaPessoaPeloID(salaPessoaId: int):
 
-    return salaPessoa_servico.obterSalaPessoaPeloID(salaPessoaId)
+    salapessoa = salaPessoa_servico.obterSalaPessoaPeloID(salaPessoaId)
+    return gerarResposta(200, "Obter SalaPessoa", "SalaPessoa", salapessoa)
 
 
 @app.route("/salaPessoa/cadastrar", methods=["POST"])
@@ -299,9 +305,14 @@ def cadastrarSalaPessoa():
     if("etapa" not in body):
         return gerarResposta(400, "O parâmetro 'etapa' é obrigatório.")
 
-    salaPessoa = salaPessoa_servico.inserirSalaPessoa(body["salaId"], body["pessoaId"], body["etapa"])
+    requisitos = requisitosParaCadastro.validarCadastroSala(body["salaId"])
+    
+    if requisitos == False:
+        return gerarResposta(400, "Não foi possível cadastrar a pessoa nessa sala.")
 
-    return gerarResposta(200, "SalaPessoa inserido", "salaPessoa", salaPessoa)
+    salaPessoa_servico.inserirSalaPessoa(body["salaId"], body["pessoaId"], body["etapa"])
+
+    return gerarResposta(200, "SalaPessoa inserido", "salaPessoa", body)
 
 
 @app.route("/salaPessoa/editar/id=<salaPessoaId>", methods=["PUT"])
@@ -323,9 +334,9 @@ def editarSalaPessoa(salaPessoaId: int):
     if("etapa" not in body):
         return gerarResposta(400, "O parâmetro 'etapa' é obrigatório.")    
 
-    salaPessoa = salaPessoa_servico.editarSalaPessoa(body["salaId"], body["pessoaId"], body["etapa"], salaPessoa_registrado)
+    salaPessoa_servico.editarSalaPessoa(body["salaId"], body["pessoaId"], body["etapa"], salaPessoa_registrado)
 
-    return gerarResposta(200, "SalaPessoa editada", "salaPessoa", salaPessoa)
+    return gerarResposta(200, "SalaPessoa editada", "salaPessoa", body)
 
 
 @app.route("/salaPessoa/remover/id=<salaPessoaId>", methods=["DELETE"])
@@ -348,12 +359,13 @@ def gerarResposta(status, mensagem, nome_do_conteudo=False, conteudo=False):
 
     resposta = {}
     resposta["status"] = status
-    resposta["mensagem"] = mensagem
+    
 
     if(nome_do_conteudo and conteudo):
         resposta[nome_do_conteudo] = conteudo
-
+    
+    resposta["mensagem"] = mensagem
+    
     return resposta
-
 
 app.run()
