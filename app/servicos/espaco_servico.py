@@ -1,6 +1,20 @@
 import sqlite3
+import servicos.espacoPessoa_servico as espacoPessoaServico
+import servicos.pessoa_servico as pessoaServico
+
 nome_db = "dados/evento.db"
 
+def consultarEspacosPeloId(id_espaco):
+
+    consulta = espacoPessoaServico.obterEspacosPessoasPeloId("espaco", id_espaco)
+    
+    lista_consulta = []
+    for i in consulta:
+        pessoa = pessoaServico.obterPessoaPeloID(i[2])
+        lista_consulta.append({"nome pessoa" : pessoa['nome'], "intervalo" : i[3]})
+    tupla_consulta = tuple(lista_consulta)
+        
+    return (tupla_consulta)
 
 def obterEspacos(): 
         

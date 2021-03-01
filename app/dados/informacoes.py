@@ -1,1 +1,0 @@
-nome_db = "dados/evento.db"

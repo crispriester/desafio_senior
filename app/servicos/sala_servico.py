@@ -1,6 +1,19 @@
 import sqlite3
+import servicos.salaPessoa_servico as salaPessoaServico
+import servicos.pessoa_servico as pessoaServico
 nome_db = "dados/evento.db"
 
+def consultarSalasPeloId(id_sala):
+
+    consulta = salaPessoaServico.obterSalasPessoasPeloId("sala", id_sala)
+    
+    lista_consulta = []
+    for i in consulta:
+        pessoa = pessoaServico.obterPessoaPeloID(i[2])
+        lista_consulta.append({"nome pessoa" : pessoa['nome'], "etapa" : i[3]})
+    tupla_consulta = tuple(lista_consulta)
+        
+    return (tupla_consulta)
 
 def obterSalas(): 
         
@@ -22,10 +35,13 @@ def obterSalaPeloID(id_sala):
     cursor = conexao.cursor()
 
     sala = cursor.execute('''SELECT * FROM Sala WHERE id = ?''', (id_sala,)).fetchone()
-    sala = {"id" : sala[0], "nome" : sala[1], "lotação" : sala[2]}
+    if sala is None:
+        valores_sala = None
+    else:
+        valores_sala = {"id" : sala[0], "nome" : sala[1], "lotação" : sala[2]}
 
     conexao.close()
-    return(sala)
+    return(valores_sala)
 
 def obterIdsSalas():
     

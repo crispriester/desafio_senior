@@ -1,31 +1,45 @@
 import sqlite3
 nome_db = "dados/evento.db"
 
+def obterSalasPessoasPeloId(elemento, id_elemento):
+
+    conexao = sqlite3.connect(nome_db)
+    cursor = conexao.cursor()
+
+    para_sala = '''SELECT * FROM SalaPessoa WHERE id_sala = ?'''
+    para_pessoa = '''SELECT * FROM SalaPessoa WHERE id_pessoa = ?'''
+
+    if elemento == "sala":
+        consultas = cursor.execute(para_sala, (id_elemento,)).fetchall()
+    else:
+        consultas = cursor.execute(para_pessoa, (id_elemento)).fetchall()
+
+    return (consultas)
 
 def obterSalasPessoas(): 
         
     conexao = sqlite3.connect(nome_db)
     cursor = conexao.cursor()
 
-    lista_salaspessoas = []
-    salaspessoas = cursor.execute('''SELECT * FROM SalaPessoa''')
-    for i in salaspessoas.fetchall():
-        lista_salaspessoas.append({"id" : i[0], "salaId" : i[1], "pessoaId" : i[2], "etapa" : i[3]})
-    tupla_salaspessoas = tuple(lista_salaspessoas)
+    lista_salas_pessoas = []
+    salas_pessoas = cursor.execute('''SELECT * FROM SalaPessoa''')
+    for i in salas_pessoas.fetchall():
+        lista_salas_pessoas.append({"id" : i[0], "salaId" : i[1], "pessoaId" : i[2], "etapa" : i[3]})
+    tupla_salas_pessoas = tuple(lista_salas_pessoas)
 
     conexao.close()
-    return(tupla_salaspessoas)
+    return (tupla_salas_pessoas)
 
 def obterSalaPessoaPeloID(id_salapessoa): 
         
     conexao = sqlite3.connect(nome_db)
     cursor = conexao.cursor()
 
-    salapessoa = cursor.execute('''SELECT * FROM SalaPessoa WHERE id = ?''', (id_salapessoa,)).fetchone()
-    salapessoa = {"id" : salapessoa[0], "salaId" : salapessoa[1], "pessoaId" : salapessoa[2], "etapa" : salapessoa[3]}
+    sala_pessoa = cursor.execute('''SELECT * FROM SalaPessoa WHERE id = ?''', (id_salapessoa,)).fetchone()
+    valores_sala_pessoa = {"id" : sala_pessoa[0], "salaId" : sala_pessoa[1], "pessoaId" : sala_pessoa[2], "etapa" : sala_pessoa[3]}
 
     conexao.close()
-    return(salapessoa)
+    return (valores_sala_pessoa)
 
 def obterQuantidadeDeSalaPessoa(id_sala):
     
@@ -55,7 +69,7 @@ def editarSalaPessoa(id_sala, id_pessoa, etapa, id_salapessoa: int):
 
     conexao.commit()
     conexao.close()
-    return cursor
+    return True
 
 def deletarSalaPessoa(id_salapessoa: int):
     conexao = sqlite3.connect(nome_db)
