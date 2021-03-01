@@ -5,17 +5,24 @@ app = Flask("Treinamento")
 
 # CONTROLADOR DE PESSOA
 
-@app.route("/pessoa/consultar", methods=["GET"])
-def consultarPessoas():
+@app.route("/pessoa/obter", methods=["GET"])
+def obterPessoas():
 
     pessoas = pessoa_servico.obterPessoas()
     return gerarResposta(200, "Pessoas Obtidas", "Pessoas", pessoas)
 
-@app.route("/pessoa/consultar/id=<pessoaId>", methods=["GET"])
-def consultarPessoaPeloID(pessoaId: int):
+@app.route("/pessoa/obter/id=<pessoaId>", methods=["GET"])
+def obterPessoaPeloID(pessoaId: int):
 
     pessoas = pessoa_servico.obterPessoaPeloID(pessoaId)
     return gerarResposta(200, "Pessoas Obtidas", "Pessoas", pessoas)
+
+
+@app.route("/pessoa/consultar/id=<pessoaId>", methods=["GET"])
+def consultarPessoaPeloID(pessoaId: int):
+
+    pessoa = pessoa_servico.consultarPessoaPeloId(pessoaId)
+    return gerarResposta(200, "Pessoa Consultada", "Pessoa", pessoa)
 
 
 @app.route("/pessoa/cadastrar", methods=["POST"])
