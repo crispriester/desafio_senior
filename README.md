@@ -14,4 +14,4 @@ Ao consultar uma sala cadastrada ou um espaço de café, o sistema deverá retor
 ## Como rodar a aplicação:  
 Para instalar o Flask, digite: pip install Flask no terminal.  
 O usuário deve usar o programa Postman como a "interface" da API.  
-Primeiramente, pelo Visual Studio Code, deve-se rodar o arquivo subir_banco.py (desafio_treinamento/app/dados/subir_banco). Certifique-se de que o diretório está em (desafio_treinamento/app) para rodar corretamente. Depois vá para o arquivo routes.py (desfio_treinamento/app) e o execute. Por fim, vá para o Postman para cadastrar e consultar as pessoas, salas e espaços. 
+Primeiramente, pelo Visual Studio Code, deve-se rodar o arquivo subir_banco.py (desafio_treinamento/app/dados/subir_banco). Certifique-se de que o diretório está em (desafio_treinamento/app) para rodar corretamente. Depois vá para o arquivo routes.py (desfio_treinamento/app) e o execute. Por fim, vá para o Postman para cadastrar, consultar e obter as pessoas, salas e espaços. 
